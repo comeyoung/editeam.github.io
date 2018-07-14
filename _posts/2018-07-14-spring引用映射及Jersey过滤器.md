@@ -15,21 +15,23 @@ tags:
 
 # 直接贴代码，简单粗暴
 
-在Spring FrameWork中，子模块依赖于父模块，当子模块调用父模块的Dao来进行增删改查等数据库操作时，会出错为空指针异常或其他异常，主要原因是在spring-mybatis配置文件中没有显式的将父模块的mapper文件和注解扫描添加进去，将上述两项添加进去之后，子模块即可调用父模块的CRUD操作，如下是代码
+在Spring FrameWork中，子模块依赖于父模块，当子模块调用父模块的Dao来进行增删改查等数据库操作时，会出错为空指针异常或其他异常，主要原因是**在spring-mybatis配置文件中没有显式的将父模块的mapper文件和注解扫描添加进去，将上述两项添加进去之后，子模块即可调用父模块的CRUD操作**，如下是代码
 
 <!-- 自动扫描 -->
-     <context:component-scan base-package="org.edi.stocktask.*" />------------------子模块注解扫描
-   1.<context:component-scan base-package="org.edi.initialfantasy.*"/>-------------------父模块注解扫描（在配置文件中需要添加）
+     <context:component-scan base-package="org.edi.stocktask.*" />子模块注解扫描
+   1.<context:component-scan base-package="org.edi.initialfantasy.*"/>**父模块注解扫描（在配置文件中需要添加)**
 
 <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.edi.stocktask.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
-	</bean>------------------子模块映射文件所在区域
+	</bean>
+子模块映射文件所在区域
 	2.<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.edi.initialfantasy.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
-	</bean>------------------父模块映射文件所在区域（在配置文件中需要添加）
+	</bean>
+**父模块映射文件所在区域（在配置文件中需要添加)**
 
 （项目多模块利用Maven进行整合，子模块要在pom.xml中添加对父模块的依赖）
 
@@ -39,8 +41,8 @@ tags:
 # Jersey注解式过滤器（此案例是对请求Token的验证）
 
 
-@Provider------------------注解绑定过滤器
-@UserRequest------------------这个注解是对过滤器的声明，将注解放在其他类或者方法上就能实现对过滤器的引用
+@Provider（注解绑定过滤器）
+@UserRequest（这个注解是对过滤器的声明，将注解放在其他类或者方法上就能实现对过滤器的引用）
 @Priority(Priorities.USER)
 public class RequestFilter implements ContainerRequestFilter,ContainerResponseFilter {
 
